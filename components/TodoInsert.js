@@ -1,18 +1,40 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  Button,
-} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, View, TextInput, Button} from 'react-native';
 
-const TodoInsert = () => {
+const TodoInsert = ({onAddTodo}) => {
+  const [newTodoItem, setNewTodoItem] = useState('');
+
+  const handleTodoInput = (newTodo) => {
+    setNewTodoItem(newTodo);
+  };
+
+  const handleAddTodo = () => {
+    if (newTodoItem === '') {
+      return;
+    } else {
+      console.log(`newTodoItem => ${newTodoItem}`);
+      //alert('newTodoItem = '+ newTodoItem);
+      onAddTodo(newTodoItem);
+      setNewTodoItem(''); // 사용한 함수는 다시 빈값으로 처리
+    }
+  };
+
   return (
     <View style={styles.inputContainer}>
-      <TextInput style={styles.input} placeholder={'할일을 입력하세요!'} autoCorrect={true} />
+      <TextInput
+        style={styles.input}
+        placeholder={'할일을 입력하세요!'}
+        autoCorrect={true}
+        value={newTodoItem}
+        onChangeText={handleTodoInput}
+      />
       <View style={styles.button}>
-        <Button title={'ADD'} />
+        <Button
+          title={'ADD'}
+          color="#00b3b3"
+          onPress={handleAddTodo}
+        />
       </View>
     </View>
   );

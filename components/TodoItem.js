@@ -7,16 +7,32 @@ import {
   Text,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import FIcon from 'react-native-vector-icons/Feather';
 
-const TodoItem = () => {
+const TodoItem = ({id, textValue, checked, onRemove, onToggle}) => {
     return (
         <View style={styles.itemContainer}>
-            <TouchableOpacity>
-                <View style={styles.circle}>
-                    <Icon name="circledowno" size={30} color="blue" />
+            <TouchableOpacity onPressOut={() => onToggle(id)}>
+                {checked ? (
+                    <View style={styles.circle}>
+                        <Icon name="circledown" size={30} color="#00b3b3" />
+                    </View>
+                ) : (
+                    <View style={styles.circle}>
+                        <Icon name="circledowno" size={30} color="#00b3b3" />
+                    </View>
+                )}
+            </TouchableOpacity>
+            <Text
+                children={textValue}
+                style={[styles.itemText,
+                    checked ? styles.strikeText : styles.unstrikeText]}
+            />
+            <TouchableOpacity onPressOut={() => onRemove(id)}>
+                <View style={styles.delete}>
+                    <FIcon name="delete" size={30} color="#ff6666" />
                 </View>
             </TouchableOpacity>
-            <Text children="더미 할 일 목록" style={styles.itemText} />
         </View>
     );
 };
@@ -31,7 +47,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     circle: {
-        marginLeft: 20,
+        marginLeft:20,
         marginRight: 20,
     },
     itemText: {
@@ -39,7 +55,17 @@ const styles = StyleSheet.create({
         marginVertical: 15,
         flex: 1,
     },
+    strikeText: {
+        color: '#9e9e9e',
+        textDecorationLine: 'line-through',
+    },
+    unstrikeText: {
+        color: '#222222',
+    },
+    delete: {
+        marginLeft: 20,
+        marginRight: 20,
+    },
 });
 
 export default TodoItem;
-
